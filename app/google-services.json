@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "902664548341",
+    "project_id": "projectx-2e473",
+    "storage_bucket": "projectx-2e473.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902664548341:android:8990a464406a8dd9b67abc",
+        "android_client_info": {
+          "package_name": "com.example.curdfirestore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtkbEw5tEVlLjI4t7V-telITTMveU4_Io"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
