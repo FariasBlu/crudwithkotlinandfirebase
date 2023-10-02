@@ -1,4 +1,4 @@
-package com.example.curdfirestore.util
+package com.curdfirestore.util
 
 data class UserData(
     var userID: String = "",

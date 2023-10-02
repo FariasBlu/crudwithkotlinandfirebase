@@ -1,4 +1,4 @@
-package com.example.curdfirestore.screen
+package com.curdfirestore.screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -12,21 +12,38 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.curdfirestore.util.SharedViewModel
-import com.example.curdfirestore.util.UserData
-
+import com.curdfirestore.util.SharedViewModel
+import com.curdfirestore.util.UserData
 @Composable
 fun GetDataScreen(
     navController: NavController,
-    sharedViewModel: SharedViewModel
+    sharedViewModel: SharedViewModel,
 ) {
-    var userID: String by remember { mutableStateOf("") }
-    var name: String by remember { mutableStateOf("") }
-    var profession: String by remember { mutableStateOf("") }
-    var age: String by remember { mutableStateOf("") }
-    var ageInt: Int by remember { mutableStateOf(0) }
+    val selectedUserId by rememberUpdatedState(sharedViewModel.selectedUserId)
+    val userId = selectedUserId
+    // Use `remember` para criar variáveis observáveis
+    var inputUserID by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
+    var profession by remember { mutableStateOf("") }
+    var age by remember { mutableStateOf("") }
+    var ageInt by remember { mutableStateOf(0) }
 
     val context = LocalContext.current
+
+    // Use `LaunchedEffect` para buscar os dados do Firestore quando a tela for criada
+    LaunchedEffect(userId) {
+        sharedViewModel.retrieveData(
+            userID = userId ?: "",
+            context = context
+        ) { data ->
+            // Atualize os valores das variáveis com os dados do Firestore
+            inputUserID = data.userID
+            name = data.name
+            profession = data.profession
+            age = data.age.toString()
+            ageInt = data.age
+        }
+    }
 
     // main Layout
     Column(modifier = Modifier.fillMaxSize()) {
@@ -43,6 +60,17 @@ fun GetDataScreen(
                 Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "back_button")
             }
         }
+
+//        if (selectedUserId != null) {
+//            Text(text = "ID é diferente de nulo")
+//
+//            Spacer(modifier = Modifier.padding(30.dp))
+//            Text(text = "valor do selectedUserID: $selectedUserId")
+//            Text(text = "valor do UserID: $userId")
+//        } else {
+//            // Lide com o cenário em que selectedUserId é nulo
+//            // Por exemplo, mostre uma mensagem de erro ou navegue de volta
+//        }
         // get data Layout
         Column(
             modifier = Modifier
@@ -58,12 +86,12 @@ fun GetDataScreen(
             ) {
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.6f),
-                    value = userID,
+                    value = inputUserID,
                     onValueChange = {
-                        userID = it
+                        inputUserID = it
                     },
                     label = {
-                        Text(text = "UserID")
+                        Text(text = "ID do usuário")
                     }
                 )
                 // get user data Button
@@ -73,17 +101,19 @@ fun GetDataScreen(
                         .width(100.dp),
                     onClick = {
                         sharedViewModel.retrieveData(
-                            userID = userID,
+                            userID = inputUserID,
                             context = context
                         ) { data ->
+                            // Atualize os valores das variáveis com os dados do Firestore
+                            inputUserID = data.userID
                             name = data.name
                             profession = data.profession
                             age = data.age.toString()
-                            ageInt = age.toInt()
+                            ageInt = data.age
                         }
                     }
                 ) {
-                    Text(text = "Get Data")
+                    Text(text = "Buscar dados")
                 }
             }
             // Name
@@ -94,7 +124,7 @@ fun GetDataScreen(
                     name = it
                 },
                 label = {
-                    Text(text = "Name")
+                    Text(text = "Nome")
                 }
             )
             // Profession
@@ -105,7 +135,7 @@ fun GetDataScreen(
                     profession = it
                 },
                 label = {
-                    Text(text = "Profession")
+                    Text(text = "Profissão")
                 }
             )
             // Age
@@ -119,7 +149,7 @@ fun GetDataScreen(
                     }
                 },
                 label = {
-                    Text(text = "Age")
+                    Text(text = "Idade")
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
@@ -130,7 +160,7 @@ fun GetDataScreen(
                     .fillMaxWidth(),
                 onClick = {
                     val userData = UserData(
-                        userID = userID,
+                        userID = inputUserID,
                         name = name,
                         profession = profession,
                         age = ageInt
@@ -139,7 +169,7 @@ fun GetDataScreen(
                     sharedViewModel.saveData(userData = userData, context = context)
                 }
             ) {
-                Text(text = "Save")
+                Text(text = "Salvar")
             }
             // delete Button
             Button(
@@ -148,14 +178,15 @@ fun GetDataScreen(
                     .fillMaxWidth(),
                 onClick = {
                     sharedViewModel.deleteData(
-                        userID = userID,
+                        userID = inputUserID,
                         context = context,
                         navController = navController
                     )
                 }
             ) {
-                Text(text = "Delete")
+                Text(text = "Apagar")
             }
         }
     }
 }
+

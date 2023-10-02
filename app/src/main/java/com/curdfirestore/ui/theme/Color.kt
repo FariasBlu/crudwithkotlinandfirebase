@@ -1,4 +1,4 @@
-package com.example.curdfirestore.ui.theme
+package com.curdfirestore.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

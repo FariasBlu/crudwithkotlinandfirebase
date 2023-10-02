@@ -1,4 +1,4 @@
-package com.example.curdfirestore.screen
+package com.curdfirestore.screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -12,12 +12,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.curdfirestore.util.SharedViewModel
-import com.example.curdfirestore.util.UserData
+import com.curdfirestore.util.SharedViewModel
+import com.curdfirestore.util.UserData
 
 @Composable
 fun AddDataScreen(
@@ -63,7 +64,7 @@ fun AddDataScreen(
                     userID = it
                 },
                 label = {
-                    Text(text = "UserID")
+                    Text(text = "ID do usuário")
                 }
             )
             // Name
@@ -74,7 +75,7 @@ fun AddDataScreen(
                     name = it
                 },
                 label = {
-                    Text(text = "Name")
+                    Text(text = "Nome")
                 }
             )
             // Profession
@@ -85,7 +86,7 @@ fun AddDataScreen(
                     profession = it
                 },
                 label = {
-                    Text(text = "Profession")
+                    Text(text = "Profissão")
                 }
             )
             // Age
@@ -99,7 +100,7 @@ fun AddDataScreen(
                     }
                 },
                 label = {
-                    Text(text = "Age")
+                    Text(text = "Idade")
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
@@ -107,6 +108,7 @@ fun AddDataScreen(
             Button(
                 modifier = Modifier
                     .padding(top = 50.dp)
+                    .alpha(12.58F)
                     .fillMaxWidth(),
                 onClick = {
                     val userData = UserData(

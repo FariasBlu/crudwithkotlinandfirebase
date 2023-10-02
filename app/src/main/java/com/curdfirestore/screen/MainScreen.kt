@@ -1,4 +1,4 @@
-package com.example.curdfirestore.screen
+package com.curdfirestore.screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.curdfirestore.nav.Screens
+import com.curdfirestore.nav.Screens
 
 @Composable
 fun MainScreen(
@@ -29,7 +29,7 @@ fun MainScreen(
                 navController.navigate(route = Screens.GetDataScreen.route)
             }
         ) {
-            Text(text = "Get User Data")
+            Text(text = "Buscar usuário pelo ID")
         }
 
         // add user data Button
@@ -39,7 +39,16 @@ fun MainScreen(
                 navController.navigate(route = Screens.AddDataScreen.route)
             }
         ) {
-          Text(text = "Add User Data")
+          Text(text = "Adicionar usuário")
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                navController.navigate(route = Screens.ListDataScreen.route)
+            }
+        ) {
+            Text(text = "Listar usuários")
         }
     }
 }

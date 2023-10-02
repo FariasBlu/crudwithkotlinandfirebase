@@ -1,7 +1,10 @@
-package com.example.curdfirestore.util
+package com.curdfirestore.util
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.google.firebase.firestore.ktx.firestore
@@ -12,6 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SharedViewModel() : ViewModel() {
+
+    var selectedUserId: String? = null
+    var documents: List<String> by mutableStateOf(emptyList())
 
     fun saveData(
         userData: UserData,
